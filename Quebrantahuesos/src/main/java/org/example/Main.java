@@ -2,7 +2,7 @@ package org.example;
 
 import org.example.Models.Ciclista;
 import org.example.Models.Equipo;
-import org.example.Repository.Repositorio;
+import org.example.Repositorio.Repositorio;
 import org.example.Services.CarreraService;
 import java.util.List;
 import java.util.Scanner;

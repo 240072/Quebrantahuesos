@@ -9,12 +9,15 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mockito.version>5.7.0</mockito.version>
-        <bytebuddy.version>1.14.9</bytebuddy.version>
-        <junit.jupiter.version>5.10.0</junit.jupiter.version>
+        <mockito.version>5.3.1</mockito.version>
+        <junit.jupiter.version>5.9.2</junit.jupiter.version>
+        <sonar.host.url>http://ec2-3-92-58-41.compute-1.amazonaws.com:9000</sonar.host.url>
+        <sonar.login>sqp_8b438fd99ec88f7b203b5e47a73c1c544fa6c080</sonar.login>
+        <sonar.projectKey>ProyectoFinal</sonar.projectKey>
+        <sonar.projectName>ProyectoFinal</sonar.projectName>
     </properties>
 
     <dependencies>
@@ -28,12 +31,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
@@ -51,51 +48,26 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Byte Buddy -->
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>${bytebuddy.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy-agent</artifactId>
-            <version>${bytebuddy.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${mockito.version}</version>
+            <version>1.14.5</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Compiler plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <release>23</release>
-                    <compilerArgs>
-                        <arg>--enable-preview</arg>
-                    </compilerArgs>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
-                <configuration>
-                    <argLine>-Xshare:off</argLine>
-                </configuration>
-            </plugin>
-            <!-- Surefire plugin for tests -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -103,11 +75,11 @@
                 <configuration>
                     <argLine>
                         --add-opens java.base/java.lang=ALL-UNNAMED
-                        -Dnet.bytebuddy.experimental=true
-                        -Djdk.instrument.traceUsage=false
-                        -XX:+EnableDynamicAgentLoading
-                        -XX:+IgnoreUnrecognizedVMOptions
+                        --add-opens java.base/java.util=ALL-UNNAMED
                     </argLine>
+                    <systemPropertyVariables>
+                        <jdk.attach.allowAttachSelf>true</jdk.attach.allowAttachSelf>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
